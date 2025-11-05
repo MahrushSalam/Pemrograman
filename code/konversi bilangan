@@ -1,32 +1,97 @@
-try:
-    menu = int(input("""Choose an option:
- 1. Decimal to binary
- 2. Binary to decimal
- 3. Decimal to octal
- 4. Octal to decimal
- 5. Decimal to hexadecimal
- 6. Hexadecimal to decimal
- Option: """))
-    if menu < 1 or menu > 6:
-        raise ValueError
-    
-    if menu == 1:
-        dec = int(input("Input your decimal number:\nDecimal: "))
-        print("Binary: {}".format(bin(dec)[2:]))
-    elif menu == 2:
-        binary = input("Input your binary number:\nBinary: ")
-        print("Decimal: {}".format(int(binary, 2)))
-    elif menu == 3:
-        dec = int(input("Input your decimal number:\nDecimal: "))
-        print("Octal: {}".format(oct(dec)[2:]))
-    elif menu == 4:
-        octal = input("Input your octal number:\nOctal: ")
-        print("Decimal: {}".format(int(octal, 8)))
-    elif menu == 5:
-        dec = int(input("Input your decimal number:\nDecimal: "))
-        print("Hexadecimal: {}".format(hex(dec)[2:].upper()))
-    elif menu == 6:
-        hexa = input("Input your hexadecimal number:\nHexadecimal: ")
-        print("Decimal: {}".format(int(hexa, 16)))
-except ValueError:
-    print("Please choose a valid option")
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konverter Bilangan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .error {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Konverter Bilangan</h1>
+    <div class="container">
+        <label for="decimal">Desimal:</label>
+        <input type="text" id="decimal" placeholder="Masukkan bilangan desimal">
+
+        <label for="binary">Biner:</label>
+        <input type="text" id="binary" placeholder="Masukkan bilangan biner (hanya 0 dan 1)">
+
+        <label for="octal">Oktal:</label>
+        <input type="text" id="octal" placeholder="Masukkan bilangan oktal (0-7)">
+
+        <label for="hexadecimal">Heksadesimal:</label>
+        <input type="text" id="hexadecimal" placeholder="Masukkan bilangan heksadesimal (0-9, A-F)">
+
+        <div id="error" class="error"></div>
+    </div>
+
+    <script>
+        const decimalInput = document.getElementById('decimal');
+        const binaryInput = document.getElementById('binary');
+        const octalInput = document.getElementById('octal');
+        const hexInput = document.getElementById('hexadecimal');
+        const errorDiv = document.getElementById('error');
+
+        function validateAndConvert(input, base, targetInputs) {
+            const value = input.value.trim();
+            if (value === '') {
+                // Jika kosong, kosongkan semua
+                targetInputs.forEach(inp => inp.value = '');
+                errorDiv.textContent = '';
+                return;
+            }
+            try {
+                const num = parseInt(value, base);
+                if (isNaN(num)) throw new Error('Input tidak valid');
+                // Konversi ke basis lain
+                decimalInput.value = num.toString(10);
+                binaryInput.value = num.toString(2);
+                octalInput.value = num.toString(8);
+                hexInput.value = num.toString(16).toUpperCase();
+                errorDiv.textContent = '';
+            } catch (e) {
+                errorDiv.textContent = 'Input tidak valid untuk basis ini.';
+            }
+        }
+
+        decimalInput.addEventListener('input', () => validateAndConvert(decimalInput, 10, [binaryInput, octalInput, hexInput]));
+        binaryInput.addEventListener('input', () => validateAndConvert(binaryInput, 2, [decimalInput, octalInput, hexInput]));
+        octalInput.addEventListener('input', () => validateAndConvert(octalInput, 8, [decimalInput, binaryInput, hexInput]));
+        hexInput.addEventListener('input', () => validateAndConvert(hexInput, 16, [decimalInput, binaryInput, octalInput]));
+    </script>
+</body>
+</html>
