@@ -1,0 +1,32 @@
+try:
+    menu = int(input("""Choose an option:
+ 1. Decimal to binary
+ 2. Binary to decimal
+ 3. Decimal to octal
+ 4. Octal to decimal
+ 5. Decimal to hexadecimal
+ 6. Hexadecimal to decimal
+ Option: """))
+    if menu < 1 or menu > 6:
+        raise ValueError
+    
+    if menu == 1:
+        dec = int(input("Input your decimal number:\nDecimal: "))
+        print("Binary: {}".format(bin(dec)[2:]))
+    elif menu == 2:
+        binary = input("Input your binary number:\nBinary: ")
+        print("Decimal: {}".format(int(binary, 2)))
+    elif menu == 3:
+        dec = int(input("Input your decimal number:\nDecimal: "))
+        print("Octal: {}".format(oct(dec)[2:]))
+    elif menu == 4:
+        octal = input("Input your octal number:\nOctal: ")
+        print("Decimal: {}".format(int(octal, 8)))
+    elif menu == 5:
+        dec = int(input("Input your decimal number:\nDecimal: "))
+        print("Hexadecimal: {}".format(hex(dec)[2:].upper()))
+    elif menu == 6:
+        hexa = input("Input your hexadecimal number:\nHexadecimal: ")
+        print("Decimal: {}".format(int(hexa, 16)))
+except ValueError:
+    print("Please choose a valid option")
